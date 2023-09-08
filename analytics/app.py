@@ -49,26 +49,27 @@ def daily_visits():
 
 @app.route("/api/reports/user_visits", methods=["GET"])
 def all_user_visits():
-    result = db.session.execute(text("""
-    SELECT t.user_id,
-        t.visits,
-        users.joined_at
-    FROM   (SELECT tokens.user_id,
-                Count(*) AS visits
-            FROM   tokens
-            GROUP  BY user_id) AS t
-        LEFT JOIN users
-                ON t.user_id = users.id;
-    """))
+    with app.app_context():
+        result = db.session.execute(text("""
+        SELECT t.user_id,
+            t.visits,
+            users.joined_at
+        FROM   (SELECT tokens.user_id,
+                    Count(*) AS visits
+                FROM   tokens
+                GROUP  BY user_id) AS t
+            LEFT JOIN users
+                    ON t.user_id = users.id;
+        """))
 
-    response = {}
-    for row in result:
-        response[row[0]] = {
-            "visits": row[1],
-            "joined_at": str(row[2])
-        }
-    
-    return jsonify(response)
+        response = {}
+        for row in result:
+            response[row[0]] = {
+                "visits": row[1],
+                "joined_at": str(row[2])
+            }
+        
+        return jsonify(response)
 
 
 scheduler = BackgroundScheduler()
