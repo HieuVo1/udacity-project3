@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: project3-api
+  name: project3-api-1
   labels:
-    name: project3-api
+    name: project3-api-1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: project3-api
+      service: project3-api-1
   template:
     metadata:
       labels:
-        service: project3-api
+        service: project3-api-1
     spec:
       containers:
-        - name: project3-api
-          image: 077552042909.dkr.ecr.us-east-1.amazonaws.com/project3:7
+        - name: project3-api-1
+          image: 077552042909.dkr.ecr.us-east-1.amazonaws.com/project3:8
           imagePullPolicy: Always
           livenessProbe:
             httpGet:

@@ -1,0 +1,10 @@
+project-db-postgresql-0:
+  volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: postgredb
+  volumes:
+    - name: postgredb
+      persistentVolumeClaim:
+        claimName: postgres-pv-claim
+  labels:
+    app.kubernetes.io/name: hieuvt19
