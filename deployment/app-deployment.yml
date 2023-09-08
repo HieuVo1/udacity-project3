@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: project3-api-1
+  name: project3-api
   labels:
-    name: project3-api-1
+    name: project3-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: project3-api-1
+      service: project3-api
   template:
     metadata:
       labels:
-        service: project3-api-1
+        service: project3-api
     spec:
       containers:
-        - name: project3-api-1
-          image: 077552042909.dkr.ecr.us-east-1.amazonaws.com/project3:8
+        - name: project3-api
+          image: 077552042909.dkr.ecr.us-east-1.amazonaws.com/project3:9
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
@@ -42,10 +42,7 @@ spec:
                   name: db-secret
                   key: DB_PASSWORD
             - name: DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: db-env
-                  key: DB_HOST
+              value: project-db-postgresql
       restartPolicy: Always
       imagePullSecrets:
         - name: regcred
