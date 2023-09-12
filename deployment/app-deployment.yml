@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: project3-api
-          image: 077552042909.dkr.ecr.us-east-1.amazonaws.com/project3:10
+          image: 077552042909.dkr.ecr.us-east-1.amazonaws.com/project3:11
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
