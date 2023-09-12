@@ -17,12 +17,11 @@ port_number = int(os.environ.get("APP_PORT", 5153))
 def health_check():
     return "ok"
 
-
 @app.route("/readiness_check")
 def readiness_check():
     return "ok"
 
-
+@app.route("/api/reports/daily_usage", methods=["GET"])
 def get_daily_visits():
     with app.app_context():
         result = db.session.execute(text("""
@@ -39,12 +38,7 @@ def get_daily_visits():
 
         app.logger.info(response)
 
-    return response
-
-
-@app.route("/api/reports/daily_usage", methods=["GET"])
-def daily_visits():
-    return jsonify(get_daily_visits)
+        return jsonify(response)
 
 
 @app.route("/api/reports/user_visits", methods=["GET"])
@@ -73,7 +67,7 @@ def all_user_visits():
 
 
 scheduler = BackgroundScheduler()
-job = scheduler.add_job(all_user_visits, 'interval', seconds=30)
+job = scheduler.add_job(get_daily_visits, 'interval', seconds=30)
 scheduler.start()
 
 if __name__ == "__main__":
